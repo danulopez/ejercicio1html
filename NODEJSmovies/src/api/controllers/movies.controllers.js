@@ -18,11 +18,56 @@ const getMovieById = async(req, res) => {
         return res.status(500).json(movieById)
     }
 }
+const getMovieByTitle = async(req, res) => {
+    console.log("esta es la funcion title");
+    const title = req.params.title
+    try {
+        const movieByTitle = await Movie.find(title)
+        return res.status(200).json(movieByTitle)
+    } catch (error) {
+        return res.status(500).json(movieByTitle)
+    }
+}
+const getMovieByGenre= async(req, res) => {
+    console.log("esta es la funcion genre");
+    const genre = req.params.genre
+    try {
+        const movieByGenre = await Movie.find(genre)
+        return res.status(200).json(movieByGenre)
+    } catch (error) {
+        return res.status(500).json(movieByGenre)
+    }
+}
+
+const getMovieByYear= async (req, res) => {
+    console.log("esta es la función year");
+    const year = req.params.year
+    try {
+        const movieByYear = await Movie.find(year)
+        return res.status(200).json(movieByYear)
+    } catch (error) {
+        return res.status(500).json(movieByYear)
+    }
+}
+
+
 const postMovie = async (req, res) =>{
     try {
        const newMovie = new Movie(req.body)
        const createdMovie = await newMovie.save()
        return res.status(201).json(createdMovie)        
+    } catch (error) {
+        return res.status(500).json(error)
+    }
+
+}
+const putMovie = async (req, res) =>{
+    try {
+       const {id} = req.params
+       const modifyMovie = new Movie(req.body)
+       modifyMovie._id =id
+       const movieUpdated = await Movie.findByIdAndUpdate(id, modifyMovie)
+       return res.status(201).json(movieUpdated)        
     } catch (error) {
         return res.status(500).json(error)
     }
@@ -42,5 +87,5 @@ const deleteMovie = async (req, res) => {
  }
 }
 
-module.exports = {getMovies, getMovieById, postMovie, deleteMovie}
+module.exports = {getMovies, getMovieById, getMovieByTitle, getMovieByGenre, getMovieByYear, putMovie, postMovie, deleteMovie}
 
